@@ -14,7 +14,7 @@ public class OauthClient {
     public static final String RESOURCE = "JPMC:URI:RS-103146-10145-PreastoSF-UAT";
     private static final String CLIENT_ID = PASSWORD;
 
-    public static void main(String[] args) throws OAuthProblemException, OAuthSystemException {
+    public String getOauthToken() throws OAuthProblemException, OAuthSystemException {
         OAuthClient client = new OAuthClient(new URLConnectionClient());
         OAuthClientRequest request =
                 OAuthClientRequest.tokenLocation("https://idauatg2.jpmorganchase.com/adfs/oauth2/token")
@@ -30,5 +30,6 @@ public class OauthClient {
                 OAuth.HttpMethod.POST,
                 OAuthJSONAccessTokenResponse.class).getAccessToken();
         System.out.println(token);
+        return token;
     }
 }
