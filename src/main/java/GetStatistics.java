@@ -31,8 +31,8 @@ public class GetStatistics {
         System.out.println(jsonString);
         WebClient client = WebClient.create();
         String response = client.post()
-               // .uri(new URI("https://isf-presence-perf.test.gaiacloud.jpmchase.net/isf/presence/supervisor/queues/subscriptions"))
-                .uri(new URI("http://localhost:8080/greeting/post"))
+                .uri(new URI("https://isf-presence-perf.test.gaiacloud.jpmchase.net/isf/presence/supervisor/queues/subscriptions"))
+                //.uri(new URI("http://localhost:8080/greeting/post"))
                 .header("Authorization", "Bearer "+token)
                 .header("Pragma","no-cache")
                 .header("X-Praesto-Client-Request-Id", UUID.randomUUID().toString())
