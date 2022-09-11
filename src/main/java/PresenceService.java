@@ -34,6 +34,7 @@ public class PresenceService {
         if(subscribed.equalsIgnoreCase("SUBSCRIBED")){
             GetStatistics.gatherStats(token,subId);
         }
+        Thread.sleep(5000);
         webSocketService.getClientSession().close();
 
     }
