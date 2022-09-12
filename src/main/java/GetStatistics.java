@@ -1,49 +1,45 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.UUID;
 
 
 public class GetStatistics {
    /* public  static void main(String args[]) throws IOException, URISyntaxException {
-        GetStatistics getStatistics = new GetStatistics();
-        extracted("token","subscriberId");
+        gatherStats("token","subscriberId");
     }*/
 
-    public static void gatherStats(String token,String subscriptionId) throws IOException, URISyntaxException {
-        ObjectMapper mapper = new ObjectMapper();
-        InputStream is = GetStatistics.class.getResourceAsStream("queues.json");
-        JsonNode jsonNode  = mapper.readValue(is, JsonNode.class);
-        String jsonString = mapper.writeValueAsString(jsonNode);
-        jsonString=jsonString.replace("#nid#",subscriptionId);
-        System.out.println(jsonString);
-        WebClient client = WebClient.create();
-        String response = client.post()
-                .uri(new URI("https://isf-presence-perf.test.gaiacloud.jpmchase.net/isf/presence/supervisor/queues/subscriptions"))
-                //.uri(new URI("http://localhost:8080/greeting/post"))
-                .header("Authorization", "Bearer "+token)
-                .header("Pragma","no-cache")
-                .header("X-Praesto-Client-Request-Id", UUID.randomUUID().toString())
-                //.header("X-Praesto-Specialist-Id",)
-                .header("Trace-Id",UUID.randomUUID().toString())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromPublisher(Mono.just(jsonString), String.class))
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        System.out.println(response);
+    public static void gatherStats(String token,String subscriptionId)  {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            InputStream is = GetStatistics.class.getResourceAsStream("queues.json");
+            JsonNode jsonNode = mapper.readValue(is, JsonNode.class);
+            String jsonString = mapper.writeValueAsString(jsonNode);
+            jsonString = jsonString.replace("#nid#", subscriptionId);
+            System.out.println(jsonString);
+            RestTemplate restTemplate = new RestTemplate();
+            URI uri = new URI("https://isf-presence-perf.test.gaiacloud.jpmchase.net/isf/presence/supervisor/queues/subscriptions");
+            //URI uri = new URI("http://localhost:8080/greeting/post");
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer "+ token);
+            headers.set("Trace-Id", UUID.randomUUID().toString());
+            headers.set("Content-Type", "application/json");
+            //headers.set("Accept","application/json");
+            headers.set("Accept", "application/vnd.jpmc.isf.external-config-service.supervisorQueuesSubscription.v1+json,application.vnd.jpmc.isf.error.v1+json");
+            HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
+            ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+            System.out.println(result);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
     }
+
 }
