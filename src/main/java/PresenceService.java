@@ -1,13 +1,6 @@
 import com.google.gson.Gson;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.util.StringUtils;
 import org.springframework.web.socket.TextMessage;
-
-import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class PresenceService {
     OauthClient OauthClient = new OauthClient();
@@ -32,7 +25,9 @@ public class PresenceService {
         String subId = responseMap.get("id");
         String subscribed = responseMap.get("type");
         if(subscribed.equalsIgnoreCase("SUBSCRIBED")){
-            GetStatistics.gatherStats(token,subId);
+            String output = GetStatistics.gatherStats(token,subId);
+            Results.getResults(output);
+            GetStatistics.unSubscribe(subId);
         }
         Thread.sleep(5000);
         webSocketService.getClientSession().close();
