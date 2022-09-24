@@ -1,3 +1,5 @@
+package com.service;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -15,8 +17,7 @@ public class Util {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Accept-Language", "en_US");
         headers.set(HttpHeaders.ACCEPT_ENCODING, "gzip");
-        headers.set(HttpHeaders.ACCEPT, "application/vnd.jpmc.isf.external-config-service.supervisorQueuesSubscription.v1+json,application.vnd.jpmc.isf.error.v1+json");
-        //headers.set(HttpHeaders.ACCEPT, "application/json");
+        headers.set(HttpHeaders.ACCEPT, "application/vnd.jpmc.isf.external-config-application.service.supervisorQueuesSubscription.v1+json,application.vnd.jpmc.isf.error.v1+json");
         return headers;
     }
 }

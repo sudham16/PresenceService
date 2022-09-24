@@ -1,6 +1,9 @@
-package model;
+package com.model;
 
 public class Stats {
+    private String name;
+    private String value;
+
     public String getName() {
         return name;
     }
@@ -9,8 +12,6 @@ public class Stats {
         this.name = name;
     }
 
-    private String name;
-
     public String getValue() {
         return value;
     }
@@ -18,8 +19,6 @@ public class Stats {
     public void setValue(String value) {
         this.value = value;
     }
-
-    private String value;
 
     @Override
     public String toString() {

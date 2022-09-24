@@ -1,54 +1,53 @@
 {
-  "nid" :"#nid#",
-  "targets":
-[
-  {
-    "targetName" : "vq_PraestoHammer_Retail",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Retail_Hammer_Test_2",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_01@switchRetail1",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_01@switchRetail2",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_01@switchRetail3",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_01@switchRetail4",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_01@switchRetail5",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_Presence_02@switchRetail_Test_1",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_hameer@switchRetail_1",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_hameer@switchRetail_2",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_hameer@switchRetail_12",
-    "targetType" : "QUEUE"
-  },
-  {
-    "targetName" : "vq_Card_hameer@switchRetail_3",
-    "targetType" : "QUEUE"
-  }
-]
+  "nid": "#nid#",
+  "targets": [
+    {
+      "targetName": "vq_PraestoHammer_Retail",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Retail_Hammer_Test_2",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_01@switchRetail1",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_01@switchRetail2",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_01@switchRetail3",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_01@switchRetail4",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_01@switchRetail5",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_Presence_02@switchRetail_Test_1",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_hameer@switchRetail_1",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_hameer@switchRetail_2",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_hameer@switchRetail_12",
+      "targetType": "QUEUE"
+    },
+    {
+      "targetName": "vq_Card_hameer@switchRetail_3",
+      "targetType": "QUEUE"
+    }
+  ]
 }
