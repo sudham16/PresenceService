@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.model.InBody;
 import com.model.Input;
 import com.model.Stats;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +36,16 @@ public class ResultFormatter {
                     int[] hhmmss = Arrays.stream(values).mapToInt(Integer::parseInt).toArray();
                     int i = (hhmmss[0] * 60) + hhmmss[1];
                     value = String.valueOf(i);
+                    if(NumberUtils.isParsable(value)){
+                        value = String.valueOf(Math.round(Float.parseFloat(value)));
+                    }
+
                 }
                 content.add("eccssre_cr{kpi=\"vq_stats\", errl=\"false\", vq=\"" + inBody.getTarget() + "\", environment=\"PROD\", stat_id=\"" + st.getName() + "\"} " + value);
             }
             content.add("\n");
             try {
-                Files.write(path, content, StandardCharsets.UTF_8,CREATE,APPEND);
+                Files.write(path, content, StandardCharsets.UTF_8,CREATE,CREATE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

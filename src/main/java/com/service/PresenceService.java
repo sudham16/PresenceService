@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,7 +20,7 @@ public class PresenceService {
     private PresenceSubscription presenceStatistics;
     @Autowired
     private ContentFileReader contentFileReader;
-    private static WebSocketService webSocketService;
+    private  WebSocketService webSocketService;
     private static final Logger LOGGER= LoggerFactory.getLogger(PresenceService.class);
     @Value("${websocket.url}")
     private String websocketUrl;
@@ -34,10 +32,6 @@ public class PresenceService {
     }
 
     public String refreshQueueContent() throws Exception {
-        if (webSocketService != null) {
-            webSocketService.getClientSession().close();
-            webSocketService = null;
-        }
         getQueueContent();
         return "Success";
     }
@@ -45,15 +39,14 @@ public class PresenceService {
     public void getQueueContent() throws Exception {
         int timeInMS = 1000;
         int maxTimeInMS = 5000;
-        String token = OauthClient.getOauthToken();
+        String token = OauthClient.getOauthToken("OauthTokenCacheType");
         LOGGER.info("Token is " + token);
-        if (webSocketService == null) {
-            webSocketService = new WebSocketService(websocketUrl + token,outputPath);
-            webSocketService.getClientSession().sendMessage(new TextMessage("{\"type\":\"SUBSCRIBE\"}"));
-        }
+        WebSocketService webSocketService = new WebSocketService(websocketUrl + token, outputPath);
+        webSocketService.sendMessage("{\"type\":\"SUBSCRIBE\"}");
         while (webSocketService.getResponse() == null) {
             Thread.sleep(timeInMS);
             if (timeInMS == maxTimeInMS) {
+                LOGGER.error("WebSocket Response not received within expected time limit");
                 throw new Exception("WebSocket Response not received within expected time limit");
             }
             timeInMS = timeInMS + 1000;
@@ -63,12 +56,12 @@ public class PresenceService {
         String subId = responseMap.get("id");
         String subscribed = responseMap.get("type");
         if (subscribed.equalsIgnoreCase("SUBSCRIBED")) {
-             presenceStatistics.getSubscription(token, subId);
+            presenceStatistics.getSubscription("SubscriptionCacheType", token, subId);
             // presenceStatistics.unSubscribe(subId);
-        }else{
+        } else {
             LOGGER.error("Subscription Not found");
         }
-
+        webSocketService.closeClientSession();
 
     }
 }

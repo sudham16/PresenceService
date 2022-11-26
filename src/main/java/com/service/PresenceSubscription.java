@@ -6,6 +6,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -36,9 +37,9 @@ public class PresenceSubscription {
 
     private static final Logger LOGGER= LoggerFactory.getLogger(PresenceSubscription.class);
 
-
-    public String getSubscription(String token, String subscriptionId) throws IOException, URISyntaxException {
-
+    @Cacheable("subscriptionCache")
+    public void getSubscription(String cacheType, String token, String subscriptionId) throws IOException, URISyntaxException {
+        LOGGER.info("Calling Get Subscription");
         ObjectMapper mapper = new ObjectMapper();
         Resource resource = new ClassPathResource("queues.json");
         FileInputStream is = new FileInputStream(resource.getFile());
@@ -55,7 +56,8 @@ public class PresenceSubscription {
         HttpHeaders headers = Util.getHttpHeaders(token);
         HttpEntity<String> request = new HttpEntity<>(jsonString, headers);
         ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
-        return result.getBody();
+        LOGGER.info("Get Subscription Result Body "+ result.getBody());
+
     }
 
     public void unSubscribe(String subscriptionId) {

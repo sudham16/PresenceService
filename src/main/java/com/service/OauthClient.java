@@ -27,7 +27,7 @@ public class OauthClient {
     @Value("${oauth.url}")
     private String oauthUrl;
     @Cacheable("oauthTokenCache")
-    public String getOauthToken() throws OAuthProblemException, OAuthSystemException {
+    public String getOauthToken(String oauthKey) throws OAuthProblemException, OAuthSystemException {
 
         OAuthClient client = new OAuthClient(new URLConnectionClient());
         OAuthClientRequest request =
